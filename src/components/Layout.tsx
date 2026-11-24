@@ -22,11 +22,18 @@ export function Layout() {
           </NavLink>
           <NavLink
             to="/knowledge"
+            target="_blank"
+            rel="noopener noreferrer"
             className={({ isActive }) => (isActive ? 'nav-active' : undefined)}
           >
             {t('nav.knowledge')}
           </NavLink>
-          <NavLink to="/news" className={({ isActive }) => (isActive ? 'nav-active' : undefined)}>
+          <NavLink
+            to="/news"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={({ isActive }) => (isActive ? 'nav-active' : undefined)}
+          >
             {t('nav.news')}
           </NavLink>
         </nav>

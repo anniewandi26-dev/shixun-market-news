@@ -37,7 +37,14 @@ export function HomeEntrances() {
 
         <div className="home-entrance-grid">
           {items.map((item) => (
-            <Link key={item.to} className="home-entrance" to={item.to}>
+            <Link
+              key={item.to}
+              className="home-entrance"
+              to={item.to}
+              {...(item.to === '/market'
+                ? {}
+                : { target: '_blank', rel: 'noopener noreferrer' })}
+            >
               <span className="eyebrow">{item.kicker}</span>
               <strong>{item.title}</strong>
               <p>{item.desc}</p>

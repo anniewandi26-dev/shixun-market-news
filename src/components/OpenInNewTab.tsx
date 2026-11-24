@@ -15,6 +15,8 @@ export function OpenInNewTab({ children }: { children: ReactNode }) {
       if (!a || !a.href) return
       if (a.hasAttribute('download')) return
       if (a.dataset.sameTab === '1') return
+      // 已声明新标签的链接交给浏览器，避免被 SPA 抢走
+      if (a.target === '_blank') return
 
       let url: URL
       try {

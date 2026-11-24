@@ -32,7 +32,7 @@ export function KnowledgeArticlePage() {
   return (
     <main className="page">
       <article className="section article-page">
-        <Link className="back-link" to="/knowledge">
+        <Link className="back-link" to="/knowledge" target="_blank" rel="noopener noreferrer">
           {t('knowledge.back')}
         </Link>
 
@@ -60,7 +60,12 @@ export function KnowledgeArticlePage() {
 
         <nav className="article-pager">
           {prev ? (
-            <Link to={`/knowledge/${prev.id}`} className="pager-link">
+            <Link
+              to={`/knowledge/${prev.id}`}
+              className="pager-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <span>{t('knowledge.prev')}</span>
               <strong>{prev.title}</strong>
             </Link>
@@ -68,7 +73,12 @@ export function KnowledgeArticlePage() {
             <span />
           )}
           {next ? (
-            <Link to={`/knowledge/${next.id}`} className="pager-link next">
+            <Link
+              to={`/knowledge/${next.id}`}
+              className="pager-link next"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <span>{t('knowledge.next')}</span>
               <strong>{next.title}</strong>
             </Link>

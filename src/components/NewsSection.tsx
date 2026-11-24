@@ -127,6 +127,8 @@ function NewsRow({
     <Link
       className={highlight ? 'news-row highlight' : 'news-row'}
       to={`/news/${item.id}`}
+      target="_blank"
+      rel="noopener noreferrer"
       style={{ animationDelay: `${index * 25}ms` }}
     >
       <div className="news-meta">

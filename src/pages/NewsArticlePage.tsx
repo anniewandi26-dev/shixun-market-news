@@ -83,7 +83,7 @@ export function NewsArticlePage() {
   return (
     <main className="page">
       <article className="section article-page">
-        <Link className="back-link" to="/news">
+        <Link className="back-link" to="/news" target="_blank" rel="noopener noreferrer">
           {t('news.back')}
         </Link>
 
@@ -106,7 +106,12 @@ export function NewsArticlePage() {
 
         <nav className="article-pager">
           {prev ? (
-            <Link to={`/news/${prev.id}`} className="pager-link">
+            <Link
+              to={`/news/${prev.id}`}
+              className="pager-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <span>{t('news.prev')}</span>
               <strong>{peerTitle(prev, locale)}</strong>
             </Link>
@@ -114,7 +119,12 @@ export function NewsArticlePage() {
             <span />
           )}
           {next ? (
-            <Link to={`/news/${next.id}`} className="pager-link next">
+            <Link
+              to={`/news/${next.id}`}
+              className="pager-link next"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <span>{t('news.next')}</span>
               <strong>{peerTitle(next, locale)}</strong>
             </Link>
