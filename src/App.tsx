@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Layout } from './components/Layout'
+import { OpenInNewTab } from './components/OpenInNewTab'
 import { RequireAdPass } from './components/RequireAdPass'
 import { SafariGate } from './components/SafariGate'
 import { DailyContentProvider } from './context/DailyContentContext'
@@ -18,24 +19,26 @@ export default function App() {
     <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '') || undefined}>
       <LocaleProvider>
         <SafariGate>
-          <QuotesProvider>
-            <DailyContentProvider>
-              <Routes>
-                <Route path="/ad" element={<AdGatePage />} />
-                <Route element={<RequireAdPass />}>
-                  <Route element={<Layout />}>
-                    <Route index element={<HomePage />} />
-                    <Route path="market" element={<MarketPage />} />
-                    <Route path="knowledge" element={<KnowledgePage />} />
-                    <Route path="knowledge/:id" element={<KnowledgeArticlePage />} />
-                    <Route path="news" element={<NewsPage />} />
-                    <Route path="news/:id" element={<NewsArticlePage />} />
-                    <Route path="*" element={<Navigate to="/" replace />} />
+          <OpenInNewTab>
+            <QuotesProvider>
+              <DailyContentProvider>
+                <Routes>
+                  <Route path="/ad" element={<AdGatePage />} />
+                  <Route element={<RequireAdPass />}>
+                    <Route element={<Layout />}>
+                      <Route index element={<HomePage />} />
+                      <Route path="market" element={<MarketPage />} />
+                      <Route path="knowledge" element={<KnowledgePage />} />
+                      <Route path="knowledge/:id" element={<KnowledgeArticlePage />} />
+                      <Route path="news" element={<NewsPage />} />
+                      <Route path="news/:id" element={<NewsArticlePage />} />
+                      <Route path="*" element={<Navigate to="/" replace />} />
+                    </Route>
                   </Route>
-                </Route>
-              </Routes>
-            </DailyContentProvider>
-          </QuotesProvider>
+                </Routes>
+              </DailyContentProvider>
+            </QuotesProvider>
+          </OpenInNewTab>
         </SafariGate>
       </LocaleProvider>
     </BrowserRouter>
