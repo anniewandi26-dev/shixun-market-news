@@ -43,8 +43,6 @@ export function HomeTodayPicks() {
             <Link
               className="btn primary"
               to={`/knowledge/${focus.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
             >
               {t('home.picks.read')}
             </Link>
@@ -53,7 +51,7 @@ export function HomeTodayPicks() {
           <div className="home-pick-news">
             <div className="home-pick-news-head">
               <h3>{t('home.picks.newsTitle')}</h3>
-              <Link className="home-text-link" to="/news" target="_blank" rel="noopener noreferrer">
+              <Link className="home-text-link" to="/news">
                 {t('home.picks.all')}
               </Link>
             </div>
@@ -65,7 +63,7 @@ export function HomeTodayPicks() {
                 const tagKey = item.tag ? tagMessageKey(item.tag) : null
                 return (
                   <li key={item.id}>
-                    <Link to={`/news/${item.id}`} target="_blank" rel="noopener noreferrer">
+                    <Link to={`/news/${item.id}`}>
                       {item.tag && (
                         <span className="news-tag">{tagKey ? t(tagKey) : item.tag}</span>
                       )}

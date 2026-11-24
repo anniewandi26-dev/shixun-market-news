@@ -37,8 +37,6 @@ export function KnowledgeSection() {
         <Link
           className="btn primary"
           to={`/knowledge/${focus.id}`}
-          target="_blank"
-          rel="noopener noreferrer"
         >
           {t('knowledge.readFocus')}
         </Link>
@@ -56,8 +54,6 @@ export function KnowledgeSection() {
                     : 'knowledge-card'
                 }
                 to={`/knowledge/${article.id}`}
-                target="_blank"
-                rel="noopener noreferrer"
               >
                 <div className="knowledge-card-top">
                   <span className="cat">

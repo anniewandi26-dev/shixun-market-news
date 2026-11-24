@@ -24,10 +24,10 @@ export function HomePage() {
             <Link className="btn primary" to="/market">
               {t('hero.ctaMarket')}
             </Link>
-            <Link className="btn ghost" to="/knowledge" target="_blank" rel="noopener noreferrer">
+            <Link className="btn ghost" to="/knowledge">
               {t('hero.ctaKnowledge')}
             </Link>
-            <Link className="btn ghost" to="/news" target="_blank" rel="noopener noreferrer">
+            <Link className="btn ghost" to="/news">
               {t('hero.ctaNews')}
             </Link>
           </div>

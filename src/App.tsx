@@ -1,8 +1,6 @@
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Layout } from './components/Layout'
-import { OpenInNewTab } from './components/OpenInNewTab'
 import { RequireAdPass } from './components/RequireAdPass'
-import { SafariGate } from './components/SafariGate'
 import { DailyContentProvider } from './context/DailyContentContext'
 import { QuotesProvider } from './context/QuotesContext'
 import { LocaleProvider } from './i18n/LocaleContext'
@@ -14,33 +12,29 @@ import { MarketPage } from './pages/MarketPage'
 import { NewsArticlePage } from './pages/NewsArticlePage'
 import { NewsPage } from './pages/NewsPage'
 
-/** HashRouter：GitHub Pages 新标签深链不会 404 File not found */
+/** HashRouter：GitHub Pages 深链可用；Safari 门禁与新标签打开已暂时关闭 */
 export default function App() {
   return (
     <HashRouter>
       <LocaleProvider>
-        <SafariGate>
-          <OpenInNewTab>
-            <QuotesProvider>
-              <DailyContentProvider>
-                <Routes>
-                  <Route path="/ad" element={<AdGatePage />} />
-                  <Route element={<RequireAdPass />}>
-                    <Route element={<Layout />}>
-                      <Route index element={<HomePage />} />
-                      <Route path="market" element={<MarketPage />} />
-                      <Route path="knowledge" element={<KnowledgePage />} />
-                      <Route path="knowledge/:id" element={<KnowledgeArticlePage />} />
-                      <Route path="news" element={<NewsPage />} />
-                      <Route path="news/:id" element={<NewsArticlePage />} />
-                      <Route path="*" element={<Navigate to="/" replace />} />
-                    </Route>
-                  </Route>
-                </Routes>
-              </DailyContentProvider>
-            </QuotesProvider>
-          </OpenInNewTab>
-        </SafariGate>
+        <QuotesProvider>
+          <DailyContentProvider>
+            <Routes>
+              <Route path="/ad" element={<AdGatePage />} />
+              <Route element={<RequireAdPass />}>
+                <Route element={<Layout />}>
+                  <Route index element={<HomePage />} />
+                  <Route path="market" element={<MarketPage />} />
+                  <Route path="knowledge" element={<KnowledgePage />} />
+                  <Route path="knowledge/:id" element={<KnowledgeArticlePage />} />
+                  <Route path="news" element={<NewsPage />} />
+                  <Route path="news/:id" element={<NewsArticlePage />} />
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </Route>
+              </Route>
+            </Routes>
+          </DailyContentProvider>
+        </QuotesProvider>
       </LocaleProvider>
     </HashRouter>
   )
