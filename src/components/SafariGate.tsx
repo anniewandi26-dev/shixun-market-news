@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { useLocale, useT } from '../i18n/LocaleContext'
+import { publicUrl } from '../utils/publicUrl'
 import { isAppleSafari, openInSafari, tryAutoOpenSafariOnce } from '../utils/safari'
 
 /**
@@ -40,7 +41,7 @@ export function SafariGate({ children }: { children: ReactNode }) {
   return (
     <div className="safari-gate" role="alertdialog" aria-modal="true" aria-labelledby="safari-gate-title">
       <div className="safari-gate-bg" aria-hidden>
-        <img src="/safari-stock-rise.png" alt="" />
+        <img src={publicUrl('safari-stock-rise.png')} alt="" />
         <div className="safari-gate-veil" />
       </div>
 

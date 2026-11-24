@@ -1,4 +1,5 @@
 import { fetchFresh } from '../utils/fetchFresh'
+import { publicUrl } from '../utils/publicUrl'
 
 export type AdTheme = 'ai' | 'market' | 'macro' | 'energy' | 'china' | 'general'
 
@@ -14,12 +15,12 @@ export interface AdSpotlight {
 }
 
 const THEME_BG: Record<AdTheme, string> = {
-  ai: '/ad-jensen-return.jpg',
-  market: '/hero-market.jpg',
-  macro: '/hero-market.jpg',
-  energy: '/hero-market.jpg',
-  china: '/hero-market.jpg',
-  general: '/ad-jensen-return.jpg',
+  ai: publicUrl('ad-jensen-return.jpg'),
+  market: publicUrl('hero-market.jpg'),
+  macro: publicUrl('hero-market.jpg'),
+  energy: publicUrl('hero-market.jpg'),
+  china: publicUrl('hero-market.jpg'),
+  general: publicUrl('ad-jensen-return.jpg'),
 }
 
 const WEIGHTS: { re: RegExp; score: number; theme?: AdTheme }[] = [
