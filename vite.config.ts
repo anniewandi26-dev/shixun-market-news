@@ -9,6 +9,8 @@ const browserHeaders = {
 
 export default defineConfig({
   plugins: [react()],
+  // GitHub Pages 子路径；本地 / 隧道仍用 /
+  base: process.env.GITHUB_PAGES === '1' ? '/shixun-market-news/' : '/',
   server: {
     host: true,
     port: 5173,
