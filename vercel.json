@@ -1,0 +1,48 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/em-his/:path*",
+      "destination": "https://push2his.eastmoney.com/:path*"
+    },
+    {
+      "source": "/api/em-news/:path*",
+      "destination": "https://np-weblist.eastmoney.com/:path*"
+    },
+    {
+      "source": "/api/em-search/:path*",
+      "destination": "https://search-api-web.eastmoney.com/:path*"
+    },
+    {
+      "source": "/api/em-push/:path*",
+      "destination": "https://push2delay.eastmoney.com/:path*"
+    },
+    {
+      "source": "/api/yahoo/:path*",
+      "destination": "https://query1.finance.yahoo.com/:path*"
+    },
+    {
+      "source": "/api/sina/:path*",
+      "destination": "https://money.finance.sina.com.cn/:path*"
+    },
+    {
+      "source": "/api/gtx/:path*",
+      "destination": "https://translate.googleapis.com/:path*"
+    },
+    {
+      "source": "/api/mymemory/:path*",
+      "destination": "https://api.mymemory.translated.net/:path*"
+    },
+    {
+      "source": "/api/lingva/:path*",
+      "destination": "https://lingva.ml/:path*"
+    },
+    {
+      "source": "/api/geo/ipapi/:path*",
+      "destination": "https://ipapi.co/:path*"
+    },
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
+  ]
+}
