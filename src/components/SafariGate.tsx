@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react'
+import safariBg from '../assets/safari-stock-rise.png'
 import { useLocale, useT } from '../i18n/LocaleContext'
-import { publicUrl } from '../utils/publicUrl'
 import { isAppleSafari, openInSafari, tryAutoOpenSafariOnce } from '../utils/safari'
 
 /**
@@ -34,14 +34,16 @@ export function SafariGate({ children }: { children: ReactNode }) {
   const onOpen = () => {
     const res = openInSafari()
     setCopiedHint(res.copied)
-    // 若已跳到 Safari，本页可能被挂起；仍留在弹窗
     window.setTimeout(() => setSafari(isAppleSafari()), 800)
   }
 
   return (
     <div className="safari-gate" role="alertdialog" aria-modal="true" aria-labelledby="safari-gate-title">
-      <div className="safari-gate-bg" aria-hidden>
-        <img src={publicUrl('safari-stock-rise.png')} alt="" />
+      <div
+        className="safari-gate-bg"
+        aria-hidden
+        style={{ backgroundImage: `url(${safariBg})` }}
+      >
         <div className="safari-gate-veil" />
       </div>
 

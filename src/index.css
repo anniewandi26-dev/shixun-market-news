@@ -1469,23 +1469,17 @@ img {
 .safari-gate-bg {
   position: absolute;
   inset: 0;
-}
-
-.safari-gate-bg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 42%;
-  /* 不去模糊，略提亮对比，背景一眼可读 */
-  filter: none;
-  opacity: 1;
+  background-color: #061018;
+  background-size: cover;
+  background-position: center 42%;
+  background-repeat: no-repeat;
 }
 
 .safari-gate-veil {
   position: absolute;
   inset: 0;
   /* 极浅遮罩，只保证文字可读 */
-  background: rgba(4, 12, 18, 0.18);
+  background: rgba(4, 12, 18, 0.12);
 }
 
 .safari-gate-card {
