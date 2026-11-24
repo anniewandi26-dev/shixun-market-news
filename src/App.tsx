@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { HashRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { OpenInNewTab } from './components/OpenInNewTab'
 import { RequireAdPass } from './components/RequireAdPass'
@@ -14,9 +14,10 @@ import { MarketPage } from './pages/MarketPage'
 import { NewsArticlePage } from './pages/NewsArticlePage'
 import { NewsPage } from './pages/NewsPage'
 
+/** HashRouter：GitHub Pages 新标签深链不会 404 File not found */
 export default function App() {
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '') || undefined}>
+    <HashRouter>
       <LocaleProvider>
         <SafariGate>
           <OpenInNewTab>
@@ -41,6 +42,6 @@ export default function App() {
           </OpenInNewTab>
         </SafariGate>
       </LocaleProvider>
-    </BrowserRouter>
+    </HashRouter>
   )
 }

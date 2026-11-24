@@ -1,5 +1,22 @@
 import { useEffect, type ReactNode } from 'react'
 
+function appPathFromUrl(url: URL): string {
+  // HashRouter：路径在 hash 里，如 #/news/xxx
+  if (url.hash && url.hash !== '#') {
+    const raw = url.hash.replace(/^#/, '')
+    const pathOnly = raw.split('?')[0] || '/'
+    return pathOnly.startsWith('/') ? pathOnly : `/${pathOnly}`
+  }
+
+  const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '')
+  let path = url.pathname
+  if (base && path.startsWith(base)) {
+    path = path.slice(base.length) || '/'
+  }
+  if (!path.startsWith('/')) path = `/${path}`
+  return path
+}
+
 /**
  * 站内链接：除首页、行情外，一律新标签打开，当前页（尤其首页）保持不动。
  */
@@ -15,7 +32,6 @@ export function OpenInNewTab({ children }: { children: ReactNode }) {
       if (!a || !a.href) return
       if (a.hasAttribute('download')) return
       if (a.dataset.sameTab === '1') return
-      // 已声明新标签的链接交给浏览器，避免被 SPA 抢走
       if (a.target === '_blank') return
 
       let url: URL
@@ -26,12 +42,7 @@ export function OpenInNewTab({ children }: { children: ReactNode }) {
       }
       if (url.origin !== window.location.origin) return
 
-      const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '')
-      let path = url.pathname
-      if (base && path.startsWith(base)) {
-        path = path.slice(base.length) || '/'
-      }
-      if (!path.startsWith('/')) path = `/${path}`
+      const path = appPathFromUrl(url)
 
       // 首页、行情：当前标签；其它内容：新标签
       if (path === '/' || path === '') return
