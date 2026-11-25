@@ -5,6 +5,10 @@ import {
   useLocalizedKnowledgeArticle,
   useLocalizedKnowledgeList,
 } from '../i18n/useLocalizedKnowledge'
+import {
+  coverForKnowledge,
+  knowledgeImageFallback,
+} from '../utils/knowledgeImage'
 
 export function KnowledgeArticlePage() {
   const { id } = useParams()
@@ -44,6 +48,18 @@ export function KnowledgeArticlePage() {
             {t('knowledge.aboutMins', { n: article.readMinutes })}
           </p>
         </header>
+
+        <figure className="article-cover">
+          <img
+            src={coverForKnowledge(article.id)}
+            alt=""
+            loading="eager"
+            decoding="async"
+            onError={(e) => {
+              e.currentTarget.src = knowledgeImageFallback()
+            }}
+          />
+        </figure>
 
         <div className="article-body">
           {article.sections.map((section) => (

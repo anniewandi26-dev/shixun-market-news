@@ -6,6 +6,12 @@ import { useLocale, useT } from '../../i18n/LocaleContext'
 import { newsCorpusForLocale } from '../../i18n/newsForLocale'
 import { useLocalizedKnowledgeList } from '../../i18n/useLocalizedKnowledge'
 import { useLocalizedNewsList } from '../../i18n/useLocalizedNews'
+import { ARTICLE_TAB_PROPS } from '../../utils/openArticleTab'
+import {
+  coverForKnowledge,
+  knowledgeImageFallback,
+} from '../../utils/knowledgeImage'
+import { coverForNews, newsImageFallback } from '../../utils/newsImage'
 
 export function HomeTodayPicks() {
   const { bundle, knowledgeFocusId, loading } = useDailyContent()
@@ -35,17 +41,29 @@ export function HomeTodayPicks() {
 
         <div className="home-picks-layout">
           <article className="home-pick-knowledge">
-            <p className="cat">
-              {t('home.picks.knowledgeCat')} · {catKey ? t(catKey) : focus.category}
-            </p>
-            <h3>{focus.title}</h3>
-            <p>{focus.summary}</p>
-            <Link
-              className="btn primary"
-              to={`/knowledge/${focus.id}`}
-            >
-              {t('home.picks.read')}
-            </Link>
+            <div className="home-pick-knowledge-media" aria-hidden>
+              <img
+                src={coverForKnowledge(focus.id)}
+                alt=""
+                onError={(e) => {
+                  e.currentTarget.src = knowledgeImageFallback()
+                }}
+              />
+            </div>
+            <div className="home-pick-knowledge-body">
+              <p className="cat">
+                {t('home.picks.knowledgeCat')} · {catKey ? t(catKey) : focus.category}
+              </p>
+              <h3>{focus.title}</h3>
+              <p>{focus.summary}</p>
+              <Link
+                className="btn primary"
+                to={`/knowledge/${focus.id}`}
+                {...ARTICLE_TAB_PROPS}
+              >
+                {t('home.picks.read')}
+              </Link>
+            </div>
           </article>
 
           <div className="home-pick-news">
@@ -63,12 +81,23 @@ export function HomeTodayPicks() {
                 const tagKey = item.tag ? tagMessageKey(item.tag) : null
                 return (
                   <li key={item.id}>
-                    <Link to={`/news/${item.id}`}>
-                      {item.tag && (
-                        <span className="news-tag">{tagKey ? t(tagKey) : item.tag}</span>
-                      )}
-                      <strong>{item.title}</strong>
-                      <em>{item.time}</em>
+                    <Link to={`/news/${item.id}`} {...ARTICLE_TAB_PROPS}>
+                      <span className="home-pick-news-thumb" aria-hidden>
+                        <img
+                          src={coverForNews(item)}
+                          alt=""
+                          onError={(e) => {
+                            e.currentTarget.src = newsImageFallback()
+                          }}
+                        />
+                      </span>
+                      <span className="home-pick-news-copy">
+                        {item.tag && (
+                          <span className="news-tag">{tagKey ? t(tagKey) : item.tag}</span>
+                        )}
+                        <strong>{item.title}</strong>
+                        <em>{item.time}</em>
+                      </span>
                     </Link>
                   </li>
                 )
