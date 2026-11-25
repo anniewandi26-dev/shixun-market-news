@@ -1,16 +1,16 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
+import { AdStockBg } from '../components/AdStockBg'
 import { localizeAdSpotlight } from '../i18n/localizeAdSpotlight'
 import { useLocale, useT } from '../i18n/LocaleContext'
 import {
-  AD_SPOTLIGHT_FALLBACK,
   fetchAdSpotlight,
+  getDailyAdSpotlight,
   type AdSpotlight,
 } from '../services/adSpotlight'
 import { isAdGatePassed, markAdGatePassed } from '../utils/adGate'
 
 const WAIT_SEC = 10
-const REFRESH_MS = 5 * 60_000
 
 export function AdGatePage() {
   const t = useT()
@@ -18,45 +18,41 @@ export function AdGatePage() {
   const navigate = useNavigate()
   const [started, setStarted] = useState(false)
   const [left, setLeft] = useState(WAIT_SEC)
-  const [spot, setSpot] = useState<AdSpotlight>(AD_SPOTLIGHT_FALLBACK)
+  const [spot, setSpot] = useState<AdSpotlight>(() => getDailyAdSpotlight())
+  // 等语言就绪后再填文案，避免 IP=马来却先闪中文标题
   const [title, setTitle] = useState('')
   const [lede, setLede] = useState('')
   const [refreshing, setRefreshing] = useState(false)
 
-  // IP 语言一就绪就先出本地兜底，保证不卡死
-  useEffect(() => {
-    if (!ready) return
-    setTitle(t('ad.headline'))
-    setLede(t('ad.lede'))
-    setSpot(AD_SPOTLIGHT_FALLBACK)
-  }, [ready, locale, localeEpoch, t])
-
-  // 后台拉实时稿 + 翻译；超时自动放弃，页面仍可点
+  // 文案跟 IP/语言走：预置包优先；失败也回 UI 词典，不露中文
   useEffect(() => {
     if (!ready || started) return
     let cancelled = false
+    const daily = getDailyAdSpotlight()
+    const uiFallback = { title: t('ad.headline'), summary: t('ad.lede') }
 
     const run = async () => {
       setRefreshing(true)
+      setSpot(daily)
       try {
+        const localizedDaily = await localizeAdSpotlight(daily, locale, uiFallback, 2500)
+        if (cancelled) return
+        setTitle(localizedDaily.title)
+        setLede(localizedDaily.summary)
+
         const next = await fetchAdSpotlight(4000)
         if (cancelled) return
         setSpot(next)
 
-        const copy = await localizeAdSpotlight(
-          next,
-          locale,
-          { title: t('ad.headline'), summary: t('ad.lede') },
-          3500,
-        )
+        const copy = await localizeAdSpotlight(next, locale, uiFallback, 3500)
         if (cancelled) return
         setTitle(copy.title)
         setLede(copy.summary)
       } catch {
         if (!cancelled) {
-          setSpot(AD_SPOTLIGHT_FALLBACK)
-          setTitle(t('ad.headline'))
-          setLede(t('ad.lede'))
+          setSpot(daily)
+          setTitle(uiFallback.title)
+          setLede(uiFallback.summary)
         }
       } finally {
         if (!cancelled) setRefreshing(false)
@@ -64,13 +60,8 @@ export function AdGatePage() {
     }
 
     void run()
-    const timer = window.setInterval(() => {
-      if (!started) void run()
-    }, REFRESH_MS)
-
     return () => {
       cancelled = true
-      window.clearInterval(timer)
     }
   }, [ready, locale, localeEpoch, started, t])
 
@@ -100,7 +91,7 @@ export function AdGatePage() {
   return (
     <main className="ad-gate" data-theme={spot.theme} aria-busy={!showMain || started}>
       <div className="ad-gate-bg" aria-hidden>
-        <img key={spot.bg} src={spot.bg} alt="" />
+        <AdStockBg photo={spot.bg} />
         <div className="ad-gate-veil" />
       </div>
 
@@ -122,6 +113,7 @@ export function AdGatePage() {
                 <button type="button" className="ad-gate-cta" onClick={onEnter}>
                   {t('ad.cta')}
                 </button>
+                <span className="ad-gate-hint">{t('ad.wait')}</span>
               </div>
             ) : (
               <div className="ad-gate-count" role="status" aria-live="polite">
@@ -130,8 +122,9 @@ export function AdGatePage() {
                     className="ad-gate-ring"
                     style={{ ['--p' as string]: String((WAIT_SEC - left) / WAIT_SEC) }}
                   />
+                  <strong>{left > 0 ? left : 0}</strong>
                 </div>
-                <p>{t('ad.entering')}</p>
+                <p>{left > 0 ? t('ad.countdown', { n: left }) : t('ad.entering')}</p>
               </div>
             )}
           </>

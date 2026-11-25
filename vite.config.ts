@@ -10,7 +10,12 @@ const browserHeaders = {
 export default defineConfig({
   plugins: [react()],
   // GitHub Pages 子路径；本地 / 隧道仍用 /
-  base: process.env.GITHUB_PAGES === '1' ? '/shixun-market-news/' : '/',
+  // npm run build:pages 或 GITHUB_PAGES=1
+  base:
+    process.env.GITHUB_PAGES === '1' ||
+    process.env.npm_lifecycle_event === 'build:pages'
+      ? '/shixun-market-news/'
+      : '/',
   server: {
     host: true,
     port: 5173,
