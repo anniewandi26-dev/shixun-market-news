@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/shixun-market-news/favicon.svg" />
@@ -21,6 +21,32 @@
     />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
+    <script>
+      /* 首屏同步语言：IP 缓存 / 时区，避免先闪华语 */
+      (function () {
+        try {
+          var raw = localStorage.getItem('shixun-lang-ip-cache-v2')
+          if (raw) {
+            var j = JSON.parse(raw)
+            if (j && j.locale && j.at && Date.now() - j.at < 7 * 24 * 60 * 60 * 1000) {
+              document.documentElement.lang = j.locale
+              return
+            }
+          }
+        } catch (e) {}
+        try {
+          var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''
+          if (/Kuala_Lumpur|Brunei/i.test(tz)) document.documentElement.lang = 'ms'
+          else if (/Shanghai|Chongqing|Urumqi|Harbin/i.test(tz))
+            document.documentElement.lang = 'zh-CN'
+          else if (/Taipei|Hong_Kong|Macau/i.test(tz)) document.documentElement.lang = 'zh-TW'
+          else if (/Jakarta|Makassar|Jayapura/i.test(tz)) document.documentElement.lang = 'id'
+          else document.documentElement.lang = 'en'
+        } catch (e) {
+          document.documentElement.lang = 'en'
+        }
+      })()
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -28,7 +54,7 @@
       rel="stylesheet"
     />
     <title>StockPulse · Quotes · Knowledge · News</title>
-    <script type="module" crossorigin src="/shixun-market-news/assets/index-CQRq8bbe.js"></script>
+    <script type="module" crossorigin src="/shixun-market-news/assets/index-CQfxPpaB.js"></script>
     <link rel="stylesheet" crossorigin href="/shixun-market-news/assets/index-B2Q_EHdc.css">
   </head>
   <body>
